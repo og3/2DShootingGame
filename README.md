@@ -110,3 +110,65 @@ private void OnTriggerExit2D(Collider2D collision)
 ```
 - 敵を設定する
 ```
+# 仕様
+- 画面下部に向けて直進する
+- 画面上部から湧いてくる
+
+# 手順
+- ゲーム進行を管理するためにオブジェクトを作成する
+ここを基準に敵を沸かせる
+- 無限沸きの処理を作る
+
+    // 敵のゲームオブジェクトを作成　見た目はインスペクタにて設定する
+    public GameObject enemy;
+
+    // コルーチンの処理を書く
+    IEnumerator SpawnEnemy()
+    {
+        // 無限ループ
+        while (true) {
+            // enemyのインスタンスを作成
+            Instantiate(
+            enemy,
+            new Vector3(Random.Range(-8f, 8f), transform.position.y, 0f),
+            transform.rotation
+            );
+            // 0.2秒間隔でInstantiateが値を返すようにする
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // コルーチンの実行
+        StartCoroutine("SpawnEnemy");
+    }
+    
+- 画面外に出たら敵のオブジェクトを削除する
+弾丸の時と同じ
+- 敵に動きをつける
+public class EnemyScript : MonoBehaviour
+{
+    // 位相の定義
+    public float phase;
+    // Start is called before the first frame update
+    void Start()
+    {
+        // 敵が出現した時にphaseの値を決定する
+        phase = Random.Range(0f, Mathf.PI * 2);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        transform.position += new Vector3(
+            // 三角関数にて敵の動きを設定
+            Mathf.Cos(Time.frameCount * 0.05f + phase) * 0.05f,
+            - 2f * Time.deltaTime,
+            0f
+            );
+    }
+}
+
+```
