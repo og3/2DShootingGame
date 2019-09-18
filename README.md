@@ -78,7 +78,6 @@ Unityでは、1フレーム分中断して、次のフレームで続きの行�
 ```
 参考：https://qiita.com/kazz4423/items/73219068684e87adc87d
 - 画面外に出たgameobjectを削除する
-を設定する
 ```
 # 考え方
 - 画面全体をgameobjectで囲い、そのオブジェクトと弾丸のgameobjectが衝突したら弾丸を削除する
@@ -94,5 +93,20 @@ is trigerにチェック
 - 弾丸の設定をする
 rigidbody 2Dを設定する
 body typeはスクリプトによる操作だけなのでkinematic
--　
+- 弾丸の衝突範囲を設定する（当たり判定）
+capsule collider 2Dを選択する
+sizeをいい感じに設定する
+- 削除処理のスクリプトを作成する
+設定するのはBox collider 2Dを設定したオブジェクト
+
+OnTriggerExit2D(Collider2D collision)
+collisionでCollider2Dに衝突したオブジェクトを取得できる
+
+private void OnTriggerExit2D(Collider2D collision)
+{
+  Destroy(collision.gameObject);
+}
+以上で画面外に出た弾丸は削除される
+```
+- 敵を設定する
 ```
