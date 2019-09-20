@@ -170,5 +170,12 @@ public class EnemyScript : MonoBehaviour
             );
     }
 }
+- 弾丸と敵の衝突判定を作る
+・敵をトリガーにする
+is trigerを設定
+・弾丸にタグをつける
+add tagから
+・enemy scriptを編集する
+
 
 ```
